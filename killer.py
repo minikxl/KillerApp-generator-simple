@@ -86,7 +86,7 @@ def send():
         msg['From'] = sender
         msg['To'] = receiver
         msg.set_content("""Hello {}! 
-Rozpoczynamy grę w killera!!! Poprzedniego maila zignorujcie. Ten jest ostateczny :P
+Rozpoczynamy grę w killera!!! 
 
 \t Twój cel to: {}
 \t Grę zaczynamy od godziny 9:00 (28.07.2020).\n
