@@ -70,6 +70,8 @@ def send():
     print('='*35)
     print('\tWysyłanie wiadomości')
     print('='*35)
+    startDate, startHour = (input("Podaj godzinę rozpoczęcia gry: "), input("Podaj datę rozpoczęcia gry: "))
+    print('\n\tlogowanie do serwera pocztowego...\n')
     login = input("Podaj swój adres e-mail: ")
     serv = input("Podaj adres serwera smtp: ")
     password = getpass("Podaj hasło: ")
@@ -86,10 +88,10 @@ def send():
         msg['From'] = sender
         msg['To'] = receiver
         msg.set_content("""Hello {}! 
-Rozpoczynamy grę w killera!!! Poprzedniego maila zignorujcie. Ten jest ostateczny :P
+Rozpoczynamy grę w killera!!!
 
 \t Twój cel to: {}
-\t Grę zaczynamy od godziny 9:00 (28.07.2020).\n
+\t Grę zaczynamy od godziny {} ({}).\n
 
 Zasady gry:
     Waszym zadaniem jest wyeliminować swój cel. Możecie to zrobić, poprzez podanie mu dowolnej rzeczy (w domyśle przedmiotu) z ręki do ręki.
@@ -97,17 +99,18 @@ Zasady gry:
 
 --------------------------------------------------\n
 Wiadomość została wygenerowana automatycznie. Prosimy na nią nie odpowiadać. 
-KillerGenerator by Dominik Kras""".format(c[0], c[1]))
-    try:
-        with smtplib.SMTP_SSL(serv, port, context=context) as server:
-            server.login(login, password)
-            server.send_message(msg)
+KillerGenerator by Dominik Kras""".format(c[0], c[1], startHour, startDate))
 
-        print('Wysyłam do: {}'.format(receiver))
-    except smtplib.SMTPServerDisconnected:
-        print('Nie można połączyć z serwerem. Zły login/hasło/adres serwera?')
-    except smtplib.SMTPException as e:
-        print('Wystąpił błąd SMTP: ' + str(e))
+        try:
+            with smtplib.SMTP_SSL(serv, port, context=context) as server:
+                server.login(login, password)
+                server.send_message(msg)
+
+            print('Wysyłam do: {}'.format(receiver))
+        except smtplib.SMTPServerDisconnected:
+            print('Nie można połączyć z serwerem. Zły login/hasło/adres serwera?')
+        except smtplib.SMTPException as e:
+            print('Wystąpił błąd SMTP: ' + str(e))
     
 if __name__ == "__main__":
     
